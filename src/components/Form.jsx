@@ -1,37 +1,30 @@
-import { nanoid } from "nanoid";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-function Form({ setItems }) {
-  const [value, setValue] = useState("");
+function Form({ addItem }) {
+  const [newItemName, setNewItemName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!value) {
-      toast.error("Please enter text");
+    if (!newItemName) {
+      toast.error("Please provide a value");
       return;
     }
-    setItems((currentState) => {
-      const item = {
-        name: value,
-        completed: false,
-        id: nanoid(),
-      };
-      return [...currentState, item];
-    });
-    toast.success("item added");
+
+    addItem(newItemName);
+    setNewItemName("");
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h4 className="">Grocery List</h4>
+      <h4>Grocery List</h4>
       <div className="form-control">
         <input
           type="text"
           className="form-input"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={newItemName}
+          onChange={(e) => setNewItemName(e.target.value)}
         />
         <button type="submit" className="btn">
           add item
